@@ -16,6 +16,7 @@ body {
     padding: 3px 30px;
     font-weight: bold;
     font-size: 1.5em;
+    margin-left: 8.333%;
 }
 
 #navcontent{
@@ -74,11 +75,12 @@ body {
 
 
 #footerNav{
-	width: 100%;
+	/* width: 100%; */
+    /* right: 0; */
+    /* left: 0; */
+    /* margin-top: 20px; */
     position: fixed;
-    right: 0;
     bottom: 0;
-    left: 0;
     z-index: 1030;
     max-width: 100%;
 }
