@@ -1,0 +1,132 @@
+body{
+    text-align: center;
+    background-color: #D1F8FF;
+    font-family: 'Barlow Condensed', sans-serif;
+}
+
+#header {
+    background-color: #D1F8FF;
+    color: #333;
+    font-weight: 500;
+    text-align: center;
+}
+
+h2{ 
+    font-size: 2.6em;
+    margin: 10px;
+}
+
+h1{
+    font-size: 40px;
+    font-weight: 550;
+}
+
+#box-mode, 
+#box-clock, 
+#box-matches, 
+#box-pairsm, 
+#box-tries, 
+#box-level{
+    margin-bottom: 10px;
+}
+
+.label{
+    font-size: 2rem;
+}
+
+.info{
+    font-size: 3.5rem;
+}
+
+#app-logo-img {
+    width: 553px;
+}
+
+#gifBox{
+    /* background-color: rgba(255, 251, 0, 0.342); */
+    pointer-events: all;
+}
+
+#stats{
+    /* background-color: rgba(183, 0, 255, 0.342); */
+    text-align: left;
+    font-weight: 500;
+    margin-left: auto;
+}
+
+.staticgif{
+    width: 101px;
+    height: 136px;
+}
+
+form {
+    max-width: 500px;
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    color: #333;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 500;
+    font-size: 1.3em;
+}
+
+label {
+    margin: 10px;
+}
+
+.btn {
+    background-color: #FBB03B;
+    color: #333;
+    border: none;
+    font-size: 1.3em;
+    font-weight: 500;
+    margin-top: 40px;
+}
+
+.btn-lg:hover {
+    background-color: rgb(253, 218, 161);
+    color: #555;
+    border: none;
+}
+
+.btn-lg:active {
+    background-color: #FBB03B;
+    color: #333;
+    border: none;
+}
+
+.card {
+    font-size: 1.3em;
+    color: black;
+    max-width: 105px;
+    max-height: 140px;
+    display: inline-block;
+    font-weight: 700;
+    border: 2px solid #ecbd48;
+    background-color: rgba(255, 255, 255, 0.637);
+}
+
+#game{
+    margin-top: 50px;
+}
+
+
+footer {
+    background-color: #98DAE6;
+    z-index: 1;
+    height: 100px;
+    padding: 10px;
+}
+
+footer p {
+    text-align: left;
+
+}
+
+@media screen and (max-width: 768px) {
+
+    
+
+
+    
+}
