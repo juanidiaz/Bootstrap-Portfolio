@@ -25,7 +25,7 @@ Our web version of the popular memory card game where the objective is to collec
 
 > **APIs to be Used**
 
-- **TBD** for the images on the cards.
+- **Super Hero API** (http://superheroapi.com/) for the images on the cards.
 - **TBD** for the flags in the leader board.
 
 > **Rough Breakdown of Tasks**

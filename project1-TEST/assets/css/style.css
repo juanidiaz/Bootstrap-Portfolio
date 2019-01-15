@@ -1,4 +1,4 @@
-body{
+body {
     text-align: center;
     background-color: #D1F8FF;
     font-family: 'Barlow Condensed', sans-serif;
@@ -11,30 +11,30 @@ body{
     text-align: center;
 }
 
-h2{ 
+h2 {
     font-size: 2.6em;
     margin: 10px;
 }
 
-h1{
+h1 {
     font-size: 40px;
     font-weight: 550;
 }
 
-#box-mode, 
-#box-clock, 
-#box-matches, 
-#box-pairsm, 
-#box-tries, 
-#box-level{
+#box-mode,
+#box-clock,
+#box-matches,
+#box-pairsm,
+#box-tries,
+#box-level {
     margin-bottom: 10px;
 }
 
-.label{
+.label {
     font-size: 2rem;
 }
 
-.info{
+.info {
     font-size: 3.5rem;
 }
 
@@ -42,19 +42,19 @@ h1{
     width: 553px;
 }
 
-#gifBox{
+#gifBox {
     /* background-color: rgba(255, 251, 0, 0.342); */
     pointer-events: all;
 }
 
-#stats{
+#stats {
     /* background-color: rgba(183, 0, 255, 0.342); */
     text-align: left;
     font-weight: 500;
     margin-left: auto;
 }
 
-.staticgif{
+.staticgif {
     width: 101px;
     height: 136px;
 }
@@ -80,7 +80,7 @@ label {
     border: none;
     font-size: 1.3em;
     font-weight: 500;
-    margin-top: 40px;
+    margin-top: 10px;
 }
 
 .btn-lg:hover {
@@ -106,7 +106,7 @@ label {
     background-color: rgba(255, 255, 255, 0.637);
 }
 
-#game{
+#game {
     margin-top: 50px;
 }
 
@@ -125,8 +125,21 @@ footer p {
 
 @media screen and (max-width: 768px) {
 
-    
+    #app-logo-img {
+        width: 150px !important;
+    }
 
+    .staticgif {
+        width: 51px;
+        height: 86px;
+    }
 
-    
+    #gifBox {
+        width: 300px;
+    }
+
+    .col-5 {
+        margin-top: 330px;
+    }
+
 }
