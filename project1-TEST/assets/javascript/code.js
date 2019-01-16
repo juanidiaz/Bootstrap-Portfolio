@@ -140,7 +140,7 @@ $(document).ready(function () {
         urlArray = [];
         indexArray = [];
 
-        console.log("Starting level " + level + " in mode " + mode);
+        // console.log("Starting level " + level + " in mode " + mode);
 
         // Setting variables for the TIMED and CHALLENGE modes 
         if (mode === 'timed' || mode === 'challenge') {
@@ -187,7 +187,7 @@ $(document).ready(function () {
                     break;
             }
 
-            console.log("TIme for level: " + level + " is " + time);
+            // console.log("TIme for level: " + level + " is " + time);
 
             time = timeToBeat;
         };
@@ -321,7 +321,7 @@ $(document).ready(function () {
 
         // Start the countdown clock for the TIMED and CHALLENGE modes 
         if (mode === 'timed' || mode === 'challenge') {
-            console.log("calling the clock with " + time + " seconds");
+            // console.log("calling the clock with " + time + " seconds");
             timerRun(time);
 
             $("#box-clock").show();
@@ -338,7 +338,7 @@ $(document).ready(function () {
     // Update the screen
     function updateScreen() {
 
-        console.log("Updating SCREEN");
+        // console.log("Updating SCREEN");
 
         $("#pairsm").text(pairsMatched);
         $("#tries").text(tries);
@@ -346,7 +346,7 @@ $(document).ready(function () {
 
         switch (mode) {
             case 'easy': // EASY mode
-                console.log("EASY MODE");
+                // console.log("EASY MODE");
                 $("#welcome").hide();
                 $("#game").show();
 
@@ -361,7 +361,7 @@ $(document).ready(function () {
                 break;
 
             case 'timed': // TIMED mode
-                console.log("TIMED MODE");
+                // console.log("TIMED MODE");
                 $("#welcome").hide();
                 $("#game").show();
 
@@ -376,7 +376,7 @@ $(document).ready(function () {
                 break;
 
             case 'challenge': // CHALLENGE mode
-                console.log("CHALLENGE MODE");
+                // console.log("CHALLENGE MODE");
                 $("#welcome").hide();
                 $("#game").show();
 
@@ -391,7 +391,7 @@ $(document).ready(function () {
                 break;
 
             default: // NO mode... first load
-                console.log("DEFAULT MODE");
+                // console.log("DEFAULT MODE");
 
                 $('#nameInput').val(userName);
                 $('#countryInput').val(userCountry);
@@ -410,7 +410,7 @@ $(document).ready(function () {
     // Update player stats
     function updateStats() {
 
-        console.log("Updating STATS");
+        // console.log("Updating STATS");
 
         $("#mode_lbl").text(mode.toLocaleUpperCase() + " MODE");
 
@@ -453,7 +453,6 @@ $(document).ready(function () {
                 $("#playAgain").hide();
 
                 if (level === 10) { // All levels completed on CHALLENGE mode.
-                    console.log("HERE");
 
                     // Set the massage
                     msg = $("<div>").html("<h5>YOU FOUND ALL<br>THE MATCHES ON<br>ALL LEVELS!</h5>").appendTo($("#updateText"));
@@ -500,7 +499,7 @@ $(document).ready(function () {
             userCountryFlag = response[0].flag;
 
             //Log country and URL to it
-            console.log("Country: " + userCountry + "  URL: " + userCountryFlag);
+            // console.log("Country: " + userCountry + "  URL: " + userCountryFlag);
 
         });
         //////////////////////////////////////////////////////////////
@@ -655,7 +654,7 @@ $(document).ready(function () {
 
         // If the same card is clicked twice do nothing
         if (this.id.substr(4) === firstPick) {
-            console.log("repeated");
+            // console.log("repeated");
             return;
         }
 
@@ -698,7 +697,7 @@ $(document).ready(function () {
 
                     if (pairsMatched * 2 === cardsArray.length) {
 
-                        console.log("FINISHED ALL CARDS!");
+                        // console.log("FINISHED ALL CARDS!");
                         finishGame = true;
                     }
 
