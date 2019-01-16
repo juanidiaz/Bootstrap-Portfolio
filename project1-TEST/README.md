@@ -4,6 +4,7 @@
 
 ![FLIP.IMG](./assets/images/project_logo.png)
 ## Superhero image matching game ##
+See the project [live](https://juanidiaz.github.io/project1/)!
 
 > **Team Members**
 
@@ -23,12 +24,12 @@ Our web version of the popular memory card game where the objective is to collec
 - Google Firebase (Realtime)
 - API calls using AJAX
 
-> **APIs to be Used**
+> **APIs to be used**
 
 - **Super Hero API** (http://superheroapi.com/) for the images on the cards.
-- **TBD** for the flags in the leader board.
+- **REST Countries** (https://restcountries.eu/) for the flags in the leader board.
 
-> **Rough Breakdown of Tasks**
+> **Rough breakdown of tasks**
 
 - Basic
     - Create mockups
@@ -40,19 +41,20 @@ Our web version of the popular memory card game where the objective is to collec
 
 - Logic
     - Create JS basic structure
+    - Modal creation and testing
     - API handlers
 
 - Final
-    - Testing
+    - Testing, tweaking and release :-)
 
 > **Sketch of product**
 
-![01_home](./assets/images/01_home.png)
-![02_easy](./assets/images/02_easy.png)
-![03_complete](./assets/images/03_complete.png)
-![04_timed](./assets/images/04_timed.png)
-![05_time_up](./assets/images/05_time_up.png)
-![06_challenge](./assets/images/06_challenge.png)
-![07_challenge_complete](./assets/images/07_challenge_complete.png)
-![08_leaderboard](./assets/images/08_leaderboard.png)
+![01_home](./assets/images/flip_01.png)
+![02_easy](./assets/images/flip_05.png)
+![03_complete](./assets/images/flip_07.png)
+![04_timed](./assets/images/flip_14.png)
+![05_time_up](./assets/images/flip_08.png)
+![06_challenge](./assets/images/flip_13.png)
+![07_challenge_complete](./assets/images/flip_11.png)
+![08_leaderboard](./assets/images/flip_15.png)
 

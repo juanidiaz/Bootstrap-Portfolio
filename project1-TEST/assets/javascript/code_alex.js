@@ -11,7 +11,6 @@ var indexArray = []; // Will hold the index of card one and card two
 //      STRINGS/CHAR
 var userName = ''; // User's name
 var userCountry = ''; // User's country name
-var userCountryFlag = ''; // URL to user's country flag
 var mode = ''; // Type of game selected [EASY, TIMED, CHALLENGE]
 var firstPick = ""; // Index of the first card picked
 var secondPick = ""; // Index of the second card picked
@@ -26,65 +25,42 @@ var level = pairs - 1; // Number of games played
 var pairsMatched = 0; // Number of pairs matched in a game
 var overallTime = 0; // Added time used for the CHALLENGE mode
 var overallTries = 0; // Added number of tries used for the CHALLENGE mode
-var leaderTally = 10; // Number of players shown on leader board modal
 
 //      BOOLEAN
 var timer = false; // The game requires to show and use timer
 var challenge = false; // The player is on 'challenge' mode
 var finishGame = false; // TRUE if all pairs have been found in a game
 
-// ------------------------------------------------------------
 
-// Initialize Firebase -- Alexis account
-
-var config = {
-    apiKey: "AIzaSyB8rR_AYeLUh4aE2dQB_D2NITW_tVoCdiQ",
-    authDomain: "leader-board-717ef.firebaseapp.com",
-    databaseURL: "https://leader-board-717ef.firebaseio.com",
-    projectId: "leader-board-717ef",
-    storageBucket: "leader-board-717ef.appspot.com",
-    messagingSenderId: "954867525887"
+// Creating a "player info" object using constructor notation
+function playerInfo(playerName, playerCountry, ) {
+    this.name = playerName; // Player's name
+    this.country = playerCountry; // Player's choice
 };
 
-firebase.initializeApp(config);
-
-var database = firebase.database();
-const db = firebase.firestore(); //without this line of code is a realtime database
-db.settings({
-    timestampsInSnapshots: true
-}); //without this line of code is a realtime database
+var player = new playerInfo('', ''); // Contains CURRENT player info
 
 // ------------------------------------------------------------
+$("#container-leaderboard").hide();
+
+$("#showLeaderboard", "#showLeaderboardInBox", "#showLeaderboardInModalFooter").on("click", function () {
+    $("#container-leaderboard").fadeToggle(2000);
+});
+
+$("#input-fields").hide();
+
+//--------------------------------------------------------------
 
 $(document).ready(function () {
 
-    // Save player's info to Firebase DB
-    function uploadData() {
-
-        var player = {
-            name: userName, // Player's name
-            country: userCountry, // Player's country
-            flag: userCountryFlag, // URL to flag
-            tries,
-            level,
-            overallTime,
-            overallTries
-        };
-
-        // Adding user data into database
-        db.collection(mode).add(player);
-    }
-
     // Show the value of all variables
     function allVariablesInfo() {
-        console.log('------ ALL VARIABLE DUMP ------');
         console.log('intervalId: ' + intervalId);
         console.log('cardsArray: ' + cardsArray);
         console.log('urlArray: ' + urlArray);
         console.log('indexArray: ' + indexArray);
         console.log('userName: ' + userName);
         console.log('userCountry: ' + userCountry);
-        console.log('userCountryFlag: ' + userCountryFlag);
         console.log('mode: ' + mode);
         console.log('firstPick: ' + firstPick);
         console.log('secondPick: ' + secondPick);
@@ -100,7 +76,7 @@ $(document).ready(function () {
         console.log('timer: ' + timer);
         console.log('challenge: ' + challenge);
         console.log('finishGame: ' + finishGame);
-        console.log('-------------------------------');
+        console.log('player: ' + player);
     }
 
     // Reset variables for a new game
@@ -109,7 +85,6 @@ $(document).ready(function () {
         if (full) { // Clear user name and country if TRUE
             userName = "";
             userCountry = "";
-            userCountryFlag = "";
         };
 
         mode = "";
@@ -125,20 +100,10 @@ $(document).ready(function () {
         timer = false;
         challenge = false;
         finishGame = false;
-        urlArray = [];
-        indexArray = [];
-
     }
 
     // Start a game
     function startGame(pairs) {
-
-        // Reseting variables for a new game
-        finishGame = false;
-        tries = 0;
-        pairsMatched = 0;
-        urlArray = [];
-        indexArray = [];
 
         console.log("Starting level " + level + " in mode " + mode);
 
@@ -187,8 +152,6 @@ $(document).ready(function () {
                     break;
             }
 
-            console.log("TIme for level: " + level + " is " + time);
-
             time = timeToBeat;
         };
 
@@ -197,17 +160,13 @@ $(document).ready(function () {
 
         //Update screen
         updateScreen()
-
-        // Log all variables... use for troubleshooting only
-        // allVariablesInfo()
     };
 
-    // Shuffles the elements of the array
+    /*******************************************
+     * Randomize array element order in-place. *
+     * Using Durstenfeld shuffle algorithm.    *
+     *******************************************/
     function shuffleArray(array) {
-        /*******************************************
-         * Randomize array element order in-place. *
-         * Using Durstenfeld shuffle algorithm.    *
-         *******************************************/
         for (var i = array.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
             var temp = array[i];
@@ -226,7 +185,7 @@ $(document).ready(function () {
 
         var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/${KEY}/search/man`;
         // var queryURL = `https://cors-anywhere.herokuapp.com/http://superheroapi.com/api.php/10161297457820113/search/man`;
-        //var queryURL = `http://superheroapi.com/api.php/${KEY}/search/man`;
+        // var queryURL = `http://superheroapi.com/api.php/${KEY}/search/man`;
 
         $.ajax({
             url: queryURL,
@@ -338,11 +297,7 @@ $(document).ready(function () {
     // Update the screen
     function updateScreen() {
 
-        console.log("Updating SCREEN");
-
-        $("#pairsm").text(pairsMatched);
-        $("#tries").text(tries);
-        $("#level").text(level);
+        console.log("UPDATING");
 
         switch (mode) {
             case 'easy': // EASY mode
@@ -352,10 +307,6 @@ $(document).ready(function () {
 
                 $("#box-clock").hide();
                 $("#box-level").hide();
-
-                $("#app-logo").css("text-align", "start");
-                $("#app-logo-img").css("width", "290px");
-                $("#app-title").hide();
 
                 updateStats();
                 break;
@@ -368,10 +319,6 @@ $(document).ready(function () {
                 $("#box-clock").show();
                 $("#box-level").hide();
 
-                $("#app-logo").css("text-align", "start");
-                $("#app-logo-img").css("width", "290px");
-                $("#app-title").hide();
-
                 updateStats();
                 break;
 
@@ -382,10 +329,6 @@ $(document).ready(function () {
 
                 $("#box-clock").show();
                 $("#box-level").show();
-
-                $("#app-logo").css("text-align", "start");
-                $("#app-logo-img").css("width", "290px");
-                $("#app-title").hide();
 
                 updateStats();
                 break;
@@ -399,10 +342,6 @@ $(document).ready(function () {
                 $("#welcome").show();
                 $("#game").hide();
 
-                $("#app-logo").css("text-align", "center");
-                $("#app-logo-img").css("width", "553px");
-                $("#app-title").show();
-
                 break;
         }
     };
@@ -410,7 +349,10 @@ $(document).ready(function () {
     // Update player stats
     function updateStats() {
 
-        console.log("Updating STATS");
+        $("#app-logo").css("text-align", "start");
+        $("#app-logo-img").css("width", "290px");
+        $("#app-title").hide();
+
 
         $("#mode_lbl").text(mode.toLocaleUpperCase() + " MODE");
 
@@ -430,217 +372,50 @@ $(document).ready(function () {
             overallTries = overallTries + tries;
             level = pairs - 1;
 
-            // Prepare "you found all pairs" message on GameUpdate modal:
-
-            // Clear all content
-            $("#updateText").html("");
-
-            // Add the star image
-            var img = $("<img>").attr("src", "assets/images/star.png").attr("id", "updateImage").appendTo($("#updateText"));
-
-            // Set the massage
-            var msg = $("<div>").html("<h5>YOU FOUND ALL <br> THE MATCHES!</h5>");
-
-            // Show the PLAY AGAIN button from Game Update modal
-            $("#playAgain").show();
-
-            // Hide the PLAY NEXT button from Game Update modal
-            $("#playNext").hide();
+            console.log("=== End of game stats ===");
+            console.log("Name: " + userName);
+            console.log("Country: " + userCountry);
+            console.log("Level finished: " + level);
+            console.log("Time used: " + timeUsed);
+            console.log("Tries used: " + tries);
+            console.log("Matched pairs: " + pairsMatched);
+            console.log("      --- OVERALL ---");
+            console.log("Overall time used: " + overallTime);
+            console.log("Overall tries used: " + overallTries);
+            console.log("=========================");
 
             if (mode === 'challenge') {
 
-                // Hide the PLAY AGAIN button from Game Update modal
-                $("#playAgain").hide();
-
-                if (level === 10) { // All levels completed on CHALLENGE mode.
+                if (level < 10) {
                     console.log("HERE");
-
-                    // Set the massage
-                    msg = $("<div>").html("<h5>YOU FOUND ALL<br>THE MATCHES ON<br>ALL LEVELS!</h5>").appendTo($("#updateText"));
-
-                } else if (level < 9) { // Game done for CHALLENGE modes:
-
-                    // Set the massage
-                    msg = $("<div>").html("<h5>YOU FINISHED LEVEL " + level + "<br>GO TO THE NEXT ONE</h5>").appendTo($("#updateText"));
-
-                    // Show the PLAY NEXT button from Game Update modal
-                    $("#playNext").show();
-
+                    var newButton = $("<button>").addClass("btn btn-sm btn-info mr-3").attr("id", "nextButton").attr("type", "button").text("Play next level").appendTo($("#box-buttons"));
+                    // $("#box-buttons").append(newButton);
+                    // var newButton = $("<button>").html('<button class="btn btn-sm btn-info mr-3" id="nextButton" type="button">Play next level</button>').append($("#box-button"));                
+                    pairs++;
+                } else {
+                    // All levels finished on CHALLENGE mode
                 }
-            } else { // Game done for EASY and TIMED modes
-
             }
 
-            // Updload the latest user data to Firebase
-            uploadData();
+            // var gameStats = $("<h1>").text("FOUND ALL PAIRS!").appendTo($("#info"));
 
-            // Append message to modal
-            $("#updateText").append(msg);
+            // Set update message on GameUpdate modal
+            $("#updateText").text("YOU FOUND ALL PAIRS! Do you want to play again?");
 
-            // Display Game Update modal
+            // Display ALERT modal
             $("#modalGameUpdate").modal({
                 backdrop: 'static',
                 keyboard: false
             });
+
+
+
         }
+
+
     };
 
-    // Get the URL for the country selected
-    function getFlagURL() {
-
-        ///////////////////// restcountries.eu ///////////////////////
-        var queryURL = "https://restcountries.eu/rest/v2/name/" + userCountry;
-
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-
-            // Save country's flag URL
-            userCountryFlag = response[0].flag;
-
-            //Log country and URL to it
-            console.log("Country: " + userCountry + "  URL: " + userCountryFlag);
-
-        });
-        //////////////////////////////////////////////////////////////
-    }
-
-    // Populate the leader table based on the mode selected
-    function createTable(thisMode) {
-
-        //console.log("And the mode is: " + thisMode);
-
-        playerIndex = 0;
-
-        // This function creates a new row for every one of the items on the Firebase
-        function buildRows(orderText) {
-
-            // Creating the table body
-            var newTBody = $("<tbody>");
-
-            // Open the elements on the THISMODE collection and bring items ordered by ORDERTEXT
-            db.collection(thisMode).orderBy(orderText).get().then((snapshot) => {
-
-                // Do this for every element in the collection
-                snapshot.docs.forEach(doc => {
-
-                    // Do this ONLY for the number of entries defined by LEADERTALLY
-                    if (playerIndex < leaderTally) {
-
-                        // Increment iteration index
-                        playerIndex++;
-
-                        // Creating new row                        
-                        var newTrHead = $("<tr>").appendTo(newTBody);
-
-                        // Creating entry for the player's ranking
-                        var newTd = $("<td>").text(playerIndex).appendTo(newTrHead);
-
-                        // Creating entry for the player's name
-                        newTd = $("<td>").text(doc.data().name).appendTo(newTrHead);
-
-                        // Creating entry for the player's country flag
-                        newTdimg = $("<td>").appendTo(newTrHead);
-
-                        // Creating image tag for the flag
-                        var newImg = $("<img>").attr("src", doc.data().flag).attr("id", "flag").appendTo(newTdimg);
-
-                        switch (thisMode) {
-                            case 'easy':
-                                // Creating entry for the player's number of tries
-                                newTd = $("<td>").text(doc.data().tries).appendTo(newTrHead);
-                                break;
-
-                            case 'timed':
-                                // Creating entry for the player's number of tries
-                                newTd = $("<td>").text(doc.data().tries).appendTo(newTrHead);
-
-                                // Creating entry for the player's overall timed used
-                                newTd = $("<td>").text(doc.data().overallTime).appendTo(newTrHead);
-                                break;
-
-                            case 'challenge':
-                                // Creating entry for the player's max level
-                                newTd = $("<td>").text(doc.data().level).appendTo(newTrHead);
-
-                                // Creating entry for the player's overall timed used
-                                newTd = $("<td>").text(doc.data().overallTime).appendTo(newTrHead);
-
-                                // Creating entry for the player's overall tries
-                                newTd = $("<td>").text(doc.data().overallTries).appendTo(newTrHead);
-                                break;
-
-                        }
-                    }
-                })
-            });
-
-            // Return the reows with data
-            return newTBody;
-        }
-
-        // Clear the previous table
-        $("#leaderBody").html("");
-
-        // Creating the table structure
-        var newTable = $("<table>").addClass("table table-dark").attr("id", "leaderboard-table").appendTo($("#leaderBody"));
-
-        // Creating the table heather
-        var newTHead = $("<thead>").appendTo(newTable);
-
-        // Creating new row                        
-        var newTrHead = $("<tr>").appendTo(newTHead);
-
-        // Creating column heather for ranking
-        var newTh = $("<th>").attr("scope", "col").text("#").appendTo(newTrHead);
-
-        // Creating column heather for username
-        newTh = $("<th>").attr("scope", "col").text("Username").appendTo(newTrHead);
-
-        // Creating column heather for country flag
-        newTh = $("<th>").attr("scope", "col").text("Country").appendTo(newTrHead);
-
-        switch (thisMode) {
-            case 'easy':
-                // Creating column heather for tries
-                newTh = $("<th>").attr("scope", "col").text("Tries").appendTo(newTrHead);
-
-                // Call function to build the rows... sorting by 'tries'
-                var newLines = buildRows('tries').appendTo(newTable);
-                break;
-
-            case 'timed':
-                // Creating column heather for tries
-                newTh = $("<th>").attr("scope", "col").text("Tries").appendTo(newTrHead);
-
-                // Creating column heather for tries
-                newTh = $("<th>").attr("scope", "col").text("Time").appendTo(newTrHead);
-
-                // Call function to build the rows... sorting by 'overallTime'
-                var newLines = buildRows('overallTime').appendTo(newTable);
-                break;
-
-            case 'challenge':
-                // Creating column heather for tries
-                newTh = $("<th>").attr("scope", "col").text("Level").appendTo(newTrHead);
-
-                // Creating column heather for tries
-                newTh = $("<th>").attr("scope", "col").text("Tries").appendTo(newTrHead);
-
-                // Creating column heather for tries
-                newTh = $("<th>").attr("scope", "col").text("Time").appendTo(newTrHead);
-
-                // Call function to build the rows... sorting by 'level'
-                var newLines = buildRows('level').appendTo(newTable);
-                break;
-        };
-
-    }
-
-    // ********************************
-    // **        BUTTON logic        **
-    // ********************************
+    //  BUTTON LOGIC
 
     // Click on back of card
     $("#gifs").on("click", ".staticgif", function () {
@@ -750,13 +525,11 @@ $(document).ready(function () {
             // Exit
             return;
         };
-
-        // Save username and user country localy
-        userName = $('#nameInput').val().trim();
-        userCountry = $('#countryInput').val().trim();
-
-        // Get flag URL
-        getFlagURL();
+//------------------------------------------------------------------------------------------------//
+        // // Save username and user country localy        conflict with Alex's code
+        // userName = $('#nameInput').val().trim();
+        // userCountry = $('#countryInput').val().trim();
+//------------------------------------------------------------------------------------------------//
 
         // Get the mode from the button selected
         mode = this.id;
@@ -835,22 +608,8 @@ $(document).ready(function () {
         // Reset variables - FALSE = keep player name and country
         freshStart(false);
 
-        // Hide the Game Update modal
+        // Hide the modal
         $("#modalGameUpdate").modal("hide");
-
-        // Update screen
-        updateScreen();
-
-    });
-
-    // Quit the current game - and return to welcom screen
-    $("#quitButton").click(function () {
-
-        // Reset variables - FALSE = keep player name and country
-        freshStart(false);
-
-        // Stop countdown timer
-        timerStop();
 
         // Update screen
         updateScreen();
@@ -858,66 +617,12 @@ $(document).ready(function () {
     });
 
     // Play next game
-    $("#playNext").on("click", function () {
-
-        // Hide the Game Update modal
-        $("#modalGameUpdate").modal("hide");
-
-        // Increase number of pairs
-        pairs++;
-
+    $("#nextButton").on("click", function () {
         // Start game
         startGame(pairs);
-    });
+    })
 
-    // Show leader board
-    $("#leaderButton").on("click", function () {
-
-        // Hide the Game Update modal
-        $("#modalGameUpdate").modal("hide");
-
-        // Set the text of the button to be the same as the mode selected
-        $("#dropdownMenuButton").text(mode.toUpperCase() + " MODE");
-
-        // Create the table with the mode selected
-        createTable(mode);
-
-        // Show modalLeaderboard
-        $("#modalLeaderboard").modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-
-    });
-
-    // User selects what mode to show leader board
-    $(".lbSelect").on("click", function () {
-
-        //console.log(this.text.toLowerCase());
-
-        // Set the text of the button to be the same as the mode selected
-        $("#dropdownMenuButton").text(this.text + " MODE");
-
-        // Create the table with the mode selected
-        createTable(this.text.toLowerCase());
-
-    });
-
-    // Show instructions
-    $("#instButton").on("click", function () {
-
-        // Show modalInstructions
-        $("#modalInstructions").modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-
-    });
-
-    // ********************************
-    // **         TIME logic         **
-    // ********************************
-
+    /********** ALL TIMER RELATED FUNCTIONS **********/
     function timerRun() {
 
         // Stop timer
@@ -947,22 +652,11 @@ $(document).ready(function () {
         //  When run out of time...
         if (time <= 0) {
 
-            // Prepare "out of time" message on GameUpdate modal:
+            //  Update the time 
+            // $("#clock").text("Time's up!");
 
-            // Clear all content
-            $("#updateText").html("");
-
-            // Add the clock image
-            var img = $("<img>").attr("src", "assets/images/clock.png").attr("id", "updateImage").appendTo($("#updateText"));
-
-            // Set the massage
-            var msg = $("<div>").html("<h5>YOUR TIME<br>IS UP!</h5>").appendTo($("#updateText"));
-
-            // Hide the PLAY AGAIN button from Game Update modal
-            $("#playAgain").hide();
-
-            // Hide the PLAY NEXT button from Game Update modal
-            $("#playNext").hide();
+            // Set update message on GameUpdate modal
+            $("#updateText").text("YOUR TIME IS UP... try again!");
 
             // Display ALERT modal
             $("#modalGameUpdate").modal({
@@ -973,9 +667,8 @@ $(document).ready(function () {
             // Stop timer
             timerStop();
 
-            // Updload the latest user data to Firebase
-            uploadData();
-
+            // Log "out of time" and question number
+            console.log("Clock down");
         }
     };
 
@@ -1001,6 +694,142 @@ $(document).ready(function () {
 
     /*************************************************/
 
-    // Update screen on the first load
+    // Update screen
     updateScreen();
 });
+
+
+
+//************************Adding code Alex's code **************/
+
+
+
+//********API calls for flags and Firebase code for Leaderboard ***************************************************/
+
+
+var urlFlagArray = [];
+
+//Flags API code Function-----------------------------------/
+
+$("#country-input-btn").on("click", function (event) {
+
+    event.preventDefault();
+
+    var country = $("#country-input").val();
+
+    var queryURL = "https://restcountries.eu/rest/v2/name/" + country;
+
+    $("#flags").empty();
+
+    //hide user input/btn to show input/btn for country 
+    $(this).parent().hide();
+    $("#input-fields").show();
+
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+
+        for (i = 0; i < response.length; i++) {
+            var result = response[i].flag;
+        }
+
+        var flagUrl = result;
+        urlFlagArray.push(flagUrl);
+    });
+});
+
+//--------------------------------------------------
+
+//**************************************************************** */
+
+//Initialize Firebase
+
+var config = {
+    apiKey: "AIzaSyB8rR_AYeLUh4aE2dQB_D2NITW_tVoCdiQ",
+    authDomain: "leader-board-717ef.firebaseapp.com",
+    databaseURL: "https://leader-board-717ef.firebaseio.com",
+    projectId: "leader-board-717ef",
+    storageBucket: "leader-board-717ef.appspot.com",
+    messagingSenderId: "954867525887"
+}; 
+
+firebase.initializeApp(config);
+var database = firebase.database();
+const db = firebase.firestore();                //without this line of code is a realtime database
+db.settings({timestampsInSnapshots: true});     //without this line of code is a realtime database
+
+
+
+// 2. Button for adding Payers to database
+
+$("#add-player-btn").on("click", function (event) {
+    event.preventDefault();
+
+    $(this).parent().hide();
+
+    // Grabs user input
+
+    var rankingInfo = $("#ranking").val().trim(); //info needed from game results
+    var username = $("#name-input").val().trim();
+    var countryName = $("#country-input").val().trim();
+    var scoreInfo = $("#score").val().trim(); //info needed from game results
+
+    // Creates local "user-info" object for holding Player data
+
+    var newPlayer = {
+        ranking: rankingInfo,
+        user: username,
+        country: urlFlagArray[0],
+        score: scoreInfo
+    };
+
+    // Uploads player data to the database
+    database.ref().push(newPlayer);
+
+    db.collection('Easy').add(newPlayer);
+
+
+    $("#ranking").text(newPlayer.ranking); //Waiting for data from game
+    $("#name-input").text(newPlayer.user);
+    $("#country-input").text(newPlayer.country);
+    $("#score").text(newPlayer.score); //Waiting for data from game
+
+
+    $("#ranking").val("");
+    $("#name-input").val("");
+    $("#country-input").val("");
+    $("#score").val("");
+});
+
+database.ref().on("child_added", function (childSnapshot) {
+
+    var rankingInfo = childSnapshot.val().ranking;
+    var userName = childSnapshot.val().user;
+    var countryName = childSnapshot.val().country;
+    var scoreInfo = childSnapshot.val().score;
+
+
+
+    // Adding Next player to the leaderboard
+
+    var newRow = $("<tr>").append(
+        $("<td>").text(rankingInfo),
+        $("<td>").text(userName),
+        $("<img>").attr("src", countryName).addClass("flagSmall"),
+        $("<td>").text(scoreInfo),
+
+    );
+
+
+    // Append the new row to the table
+
+    $("#leaderboard-table > tbody").append(newRow);
+
+    //Empying out url Array for next player
+    urlFlagArray = [];
+
+});
+
+//********API calls for flags and Firebase code for Leaderboard    END***************************************************/

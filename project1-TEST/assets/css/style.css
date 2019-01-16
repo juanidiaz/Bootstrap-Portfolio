@@ -2,6 +2,8 @@ body {
     text-align: center;
     background-color: #D1F8FF;
     font-family: 'Barlow Condensed', sans-serif;
+    line-height: normal;
+
 }
 
 #header {
@@ -9,6 +11,10 @@ body {
     color: #333;
     font-weight: 500;
     text-align: center;
+}
+
+h5{
+    font-size: 3.5rem !important;
 }
 
 h2 {
@@ -74,6 +80,11 @@ label {
     margin: 10px;
 }
 
+#flag{
+    height: 20px;
+    width: 40px;
+}
+
 .btn {
     background-color: #FBB03B;
     color: #333;
@@ -114,13 +125,12 @@ label {
 footer {
     background-color: #98DAE6;
     z-index: 1;
-    height: 100px;
     padding: 10px;
+    margin-top: 20px;
 }
 
 footer p {
     text-align: left;
-
 }
 
 @media screen and (max-width: 768px) {

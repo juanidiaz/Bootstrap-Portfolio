@@ -24,10 +24,13 @@
     <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed:400,500,800,900" rel="stylesheet">
 
     <!-- Reset CSS -->
-    <link rel="stylesheet" type="text/css" href="./assets/css/reset.css">
+    <!-- <link rel="stylesheet" type="text/css" href="./assets/css/reset.css"> -->
 
     <!-- Linking our own CSS -->
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+
+    <!--Link for Firebase-->
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
 </head>
 
 <body>
@@ -297,12 +300,7 @@
                                 <option value="Zimbabwe">Zimbabwe</option>
                             </select>
                         </div>
-                        <!-- 
-                        <div class="form-group">
-                            <label for="pairsInput">How many pairs:</label>
-                            <input type="number" class="form-control" id="pairsInput" value="4" min="2" max="10">
-                        </div>
- -->
+
                         <div class="form-group">
                             <p for="choose-game-mode">Choose your game mode:</p>
                             <div>
@@ -311,7 +309,6 @@
                                 <button class="btn btn-lg btn-info mr-3 btnPlay" id="challenge" type="button">CHALLENGE</button>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -355,27 +352,23 @@
                     </div>
 
                     <div id="box-buttons">
-                        <button class="btn btn-sm btn-info mr-3" id="leaderButton" type="button">Leaderboard</button>
-                        <button class="btn btn-sm btn-info mr-3" id="instButton" type="button">Game Instructions</button>
-                        <button class="btn btn-sm btn-info mr-3" id="quitButton" type="button">Leave current game</button>
+                        <button class="btn btn-sm btn-info mr-3" id="leaderButton" type="button">LEADER BOARD</button>
+                        <button class="btn btn-sm btn-info mr-3" id="instButton" type="button">GAME INSTRUCTIONS</button>
+                        <button class="btn btn-sm btn-info mr-3" id="quitButton" type="button">LEAVE CURRENT GAME</button>
                     </div>
 
-                    <div>
-                        <div id="clock">
-                            <!-- CLOCK WILL BE POPULATED HERE -->
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
 
     </section>
 
-
     <footer>
         <div class="row">
             <div class="col">
-                <p>&copy;2019</p>
+                <p>Team #5 Project <b>&copy;2019</b></p>
+                <p>Click <b><a href="https://github.com/juanidiaz/project1" target="_blank">HERE</a></b> to see source
+                    code!</p>
             </div>
         </div>
     </footer>
@@ -395,7 +388,7 @@
                     <!-- Alert message goes here -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-lg" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-lg" data-dismiss="modal">CLOSE</button>
                 </div>
             </div>
         </div>
@@ -415,7 +408,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-lg" id="play">PLAY!</button>
-                    <button type="button" class="btn btn-lg" data-dismiss="modal">Change mode</button>
+                    <button type="button" class="btn btn-lg" data-dismiss="modal">CHANGE MODE</button>
                 </div>
             </div>
         </div>
@@ -432,17 +425,74 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-lg" id="playAgain">PLAY AGAIN!</button>
-                    <button type="button" class="btn btn-lg" id="showLeaderboard">Show leaderboard</button>
-                    <button type="button" class="btn btn-lg" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-lg" id="playNext">PLAY NEXT LEVEL</button>
+                    <button type="button" class="btn btn-lg" data-dismiss="modal">CLOSE</button>
                 </div>
             </div>
         </div>
     </section>
 
+    <section id="modalInstructions" class="modal fade">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Game Instructions</h2>
+                </div>
+                <div class="modal-body text-left" id="updateText">
+                    <ul>
+                        <li>Enter your name.</li>
+                        <li>Select your country from the drop menu.</li>
+                        <li>Select the tipe of game you want to play.</li>
+                        <ul>
+                            <li><b>EASY: </b>Just play... no stress.</li>
+                            <li><b>TIMED: </b>Find all pairs before you run out of time.</li>
+                            <li><b>CHALLENGE: </b>Play every level... show how smart you are.</li>
+                        </ul>
+                        <li>Once in the game, click on the back of one card to flip it.</li>
+                        <li>Click on a second card...</li>
+                        <li>
+                            <ul>
+                                <li>If the two cards match they will disapear.</li>
+                                <li>If they don't match, they will flip back... Try again.</li>
+                            </ul>
+                        </li>
+                        <li>Once you've found all pairs or run out of time, you can play again or visit the leader
+                            board to see the champions.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg" data-dismiss="modal">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-
-
-
+    <section id="modalLeaderboard" class="modal fade">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Leader board</h2>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Select mode
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item lbSelect">EASY</a>
+                            <a class="dropdown-item lbSelect">TIMED</a>
+                            <a class="dropdown-item lbSelect">CHALLENGE</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body" id="leaderBody">
+                    <!-- LEADER BOARD WILL BE HERE -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg" data-dismiss="modal">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!---------------------------------->
 
